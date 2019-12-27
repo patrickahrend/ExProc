@@ -1,0 +1,43 @@
+https://api.trello.com/1/cards/5dec0798ec05b535106d6c9c
+#Me
+**🛠 LM**
+{LM}
+
+**✌ HWB**
+{HWB}
+
+**📚 ETPG**
+{ETPG}
+
+---
+
+#Them
+**👨‍⚕️ EW**
+{EW}
+
+**🤝 CC**
+{CC}
+
+---
+
+#Us
+**👨‍👩‍👦‍👦 Fam**
+{Fam}
+
+**💘 Int**
+{Int}
+
+**🍻 Soc**
+{Soc}
+
+---
+
+#Fun
+**🔥 Rec**
+{Rec}
+
+---
+
+Rec: Reorganizing Life, Will return to Rec after
+-- Reviewing I/O Mental Model, will return to this for coding projects.
+-- Jasper and some form of Pseudo-AI that talks to me for things.
