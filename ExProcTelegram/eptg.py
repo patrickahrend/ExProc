@@ -1,4 +1,4 @@
-# Project Description
+# This script establishes the connect to Telegram. It handles sending and receiving of messages.
 # Imports
 import json
 import requests
@@ -8,15 +8,15 @@ from pathlib import Path
 from eptg_responder import messenger
 
 # Setup/Import of data, variables, paths
-EP_Path = Path(__file__).parents[0]
+EP_Path = Path(__file__).parents[1]
 datastore_folder = Path(EP_Path, "datastore")
 telegram_folder = Path(EP_Path, "ExProcTelegram")
 
 
 # Collecting some config variables
-with open(datastore_folder / "auth.json", encoding="utf8") as datastore_auth:
+with open(datastore_folder / "ep_config.json", encoding="utf8") as datastore_auth:
     auth_json = json.load(datastore_auth)
-    TELEGRAM_TOKEN = auth_json['TELEGRAM_TOKEN']
+    TELEGRAM_TOKEN = auth_json["api_keys"]["TELEGRAM_TOKEN"]
 
 # Setting up other simple local variables
 URL = "https://api.telegram.org/bot{}/".format(TELEGRAM_TOKEN)
