@@ -17,7 +17,7 @@ datastore_folder = Path(EP_Path, "datastore")
 todoist_folder = Path(EP_Path, "ExProcTodoist")
 
 # Collecting some config variables
-with open(datastore_folder / "auth.json", encoding="utf8") as datastore_auth:
+with open(datastore_folder / "ep_config.json", encoding="utf8") as datastore_auth:
     auth_json = json.load(datastore_auth)
     TODOIST_TOKEN = auth_json['TODOIST_TOKEN']
 
