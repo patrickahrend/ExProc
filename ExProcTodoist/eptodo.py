@@ -19,7 +19,7 @@ todoist_folder = Path(EP_Path, "ExProcTodoist")
 # Collecting some config variables
 with open(datastore_folder / "ep_config.json", encoding="utf8") as datastore_auth:
     auth_json = json.load(datastore_auth)
-    TODOIST_TOKEN = auth_json['TODOIST_TOKEN']
+    TODOIST_TOKEN = auth_json['api_keys']['TODOIST_TOKEN']
 
 # Setting up other simple local variables
 mytz = pytz.timezone('US/Central')
