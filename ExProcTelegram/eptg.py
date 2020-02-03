@@ -5,7 +5,7 @@ import requests
 import time
 import urllib.parse
 from pathlib import Path
-from eptg_responder import messenger
+import eptg_responder as responder
 
 # Setup/Import of data, variables, paths
 EP_Path = Path(__file__).parents[1]
@@ -66,7 +66,7 @@ def respond_to_all(updates):
     for update in updates["result"]:
         try:
             command = update["message"]["text"]
-            answer = messenger(command)
+            answer = responder.messenger(command)
             chat = update["message"]["chat"]["id"]
             send_message(answer, chat)
         except Exception as e:

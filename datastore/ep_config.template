@@ -1,0 +1,16 @@
+{
+	"api_keys": {
+		"GROUPME_TOKEN": "&token=1234", 
+		"TELEGRAM_TOKEN": "1234", 
+		"TODOIST_TOKEN": "1234", 
+		"TRELLO_API_KEY": "1234", 
+		"TRELLO_TOKEN": "1234"
+	},
+	"Daily Variables": {
+		"reboot_time": "0400"
+	},
+	"trello_links": {
+		"TRELLO_BOARD_ID": "1234"
+	}
+}
+

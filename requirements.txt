@@ -1,3 +1,4 @@
+pandas
 todoist-python>=8.1.1
 pytz>=2019
 python-dateutil
