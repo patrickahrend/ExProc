@@ -15,5 +15,4 @@ def messenger(message_text):
 
 def reboot_raspi():
     import os
-    os.system('sleep 10; sudo reboot')
-
+    os.system('sleep 10; sudo shutdown -r now')
