@@ -5,7 +5,7 @@ def messenger(message_text):
     #Higher Level Functions first?
 
     the_msg = message_text.lower()
-    if message_text.lower() == "reboot raspi":
+    if the_msg == "reboot raspi":
         reboot_raspi()
         return "Rebooting Raspberry Pi Now."
     if the_msg in responses.keys():
@@ -15,4 +15,4 @@ def messenger(message_text):
 
 def reboot_raspi():
     import os
-    #os.system('sudo shutdown -r now')
+    os.system('sleep 10; reboot')
