@@ -63,24 +63,34 @@ def send_message(text, chat_id):
     get_url(url)
 
 
-def respond_to_all(updates):
-    for update in updates["result"]:
-        try:
-            command = update["message"]["text"]
-            answer = responder.messenger(command)
-            chat = update["message"]["chat"]["id"]
-            send_message(answer, chat)
-        except Exception as e:
-            print(e)
+def respond_to_all(updates):  # Didn't like the idea of responding to multiple commands at a time. Rewriting to only respond to last update.
+    #for update in updates["result"]: The original line
+    update = updates["result"][-1]  # With this -1 indexing, only the final update should be responded to
+    try:
+        command = update["message"]["text"]
+        answer = responder.messenger(command)
+        chat = update["message"]["chat"]["id"]
+        send_message(answer, chat)
+    except Exception as e:
+        print(e)
 
 
 def main():
-    last_update_id = None
+    try:
+        with open("ExProcTelegram\\last_msg_id.txt", "r") as read_file:
+            last_update_id = read_file.readline()
+    except:
+        print("Unable to read last update ID")
+        last_update_id = None
+    print("Last update ID: ", last_update_id)
+
     while True:
         print("Looped.", last_update_id)
         updates = get_updates(last_update_id)
         if len(updates["result"]) > 0:
             last_update_id = get_last_update_id(updates) + 1
+            with open("ExProcTelegram\\last_msg_id.txt", "w") as write_file:
+                write_file.write(str(last_update_id))
             respond_to_all(updates)
         time.sleep(0.5)
 
