@@ -5,7 +5,8 @@ import requests
 import time
 import urllib.parse
 from pathlib import Path
-import eptg_responder as responder
+# Some insight for later. All import should be understood as occurring from the main ExProc folder. Thus, even something imported from eptg.py needs to be imported as though from the root directory.
+from ExProcTelegram import eptg_responder as responder
 
 # Setup/Import of data, variables, paths
 EP_Path = Path(__file__).parents[1]
