@@ -4,7 +4,6 @@ import time
 
 from pathlib import Path
 
-
 logging.basicConfig(level=logging.DEBUG, filename="ep_logfile", filemode="a+",
                     format="%(asctime)-15s %(levelname)-8s %(message)s")
 logging.info('EP has started.')

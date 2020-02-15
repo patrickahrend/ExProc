@@ -2,6 +2,7 @@
 # Imports
 import json
 import logging
+import os
 import requests
 import time
 import urllib.parse
@@ -24,7 +25,7 @@ with open(datastore_folder / "ep_config.json", encoding="utf8") as datastore_aut
 
 # Setting up other simple local variables
 #URL = "https://api.telegram.org/bot{}/".format(TELEGRAM_TOKEN)
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', filename="eptg_logfile", filemode="a+", level=logging.INFO)
 
 updater = Updater(token=TELEGRAM_TOKEN, use_context=True)
 dispatcher = updater.dispatcher
@@ -32,27 +33,27 @@ dispatcher = updater.dispatcher
 # Build in all functions here
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
-def echo(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+def reboot_raspi(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Rebooting Raspi now.")
+    os.system('sleep 5; sudo shutdown -r now')
+def send_ep_logfile(update, context):
+    context.bot.send_document(chat_id=update.effective_chat.id, document=open(EP_Path / "ep_logfile", 'rb'))
 def caps(update, context):
     text_caps = ' '.join(context.args).upper()
     context.bot.send_message(chat_id=update.effective_chat.id, text=text_caps)
-def reboot_raspi(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Rebooting Raspi now.")
-    import os
-    os.system('sleep 5; sudo shutdown -r now')
+def unknown(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Unrecognized command.")
 
 
-start_handler = CommandHandler('start', start)
-dispatcher.add_handler(start_handler)
+command_list = [
+    CommandHandler('start', start),
+    CommandHandler('reboot_raspi', reboot_raspi),
+    CommandHandler('send_logs', send_ep_logfile),
+    MessageHandler(Filters.command, unknown)
+]
 
-echo_handler = MessageHandler(Filters.text, echo)
-dispatcher.add_handler(echo_handler)
 
-caps_handler = CommandHandler('caps', caps)
-dispatcher.add_handler(caps_handler)
-
-reboot_handler = CommandHandler('reboot_raspi', reboot_raspi)
-dispatcher.add_handler(reboot_handler)
+for command in command_list:
+    dispatcher.add_handler(command)
 
 updater.start_polling()
