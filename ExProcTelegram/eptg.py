@@ -34,7 +34,7 @@ def get_json_from_url(url):
     return js
 
 
-def get_updates(offset=None, timeout=3600):  # Todo: Review this, decide if you like this timeout longpolling option
+def get_updates(offset=None, timeout=900):  # Todo: Review this, decide if you like this timeout longpolling option
     url = URL + "getUpdates?timeout=" + str(timeout)
     if offset:
         url += "&offset={}".format(offset)
