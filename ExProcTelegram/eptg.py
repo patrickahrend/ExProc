@@ -9,7 +9,6 @@ import urllib.parse
 from telegram.ext import CommandHandler, MessageHandler, Filters, Updater
 from pathlib import Path
 
-from ExProcTelegram import eptg_responder as responder
 # Some insight for later. All import should be understood as occurring from the main ExProc folder. Thus, even something imported from eptg.py needs to be imported as though from the root directory.
 
 
