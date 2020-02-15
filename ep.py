@@ -4,8 +4,7 @@ import time
 
 from pathlib import Path
 
-logging.basicConfig(level=logging.DEBUG, filename="ep_logfile", filemode="a+",
-                    format="%(asctime)-15s %(levelname)-8s %(message)s")
+logging.basicConfig(level=logging.DEBUG, filename="ep_logfile.txt", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
 logging.info('EP has started.')
 
 # from ExProcTodoist import eptodo # As written, importing this package will run all of ep_todo. Double check that's what you want.

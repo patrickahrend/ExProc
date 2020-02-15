@@ -25,35 +25,38 @@ with open(datastore_folder / "ep_config.json", encoding="utf8") as datastore_aut
 
 # Setting up other simple local variables
 #URL = "https://api.telegram.org/bot{}/".format(TELEGRAM_TOKEN)
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', filename="eptg_logfile", filemode="a+", level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', filename="eptg_logfile.txt", filemode="a+", level=logging.INFO)
+command_dict = {}
 
-updater = Updater(token=TELEGRAM_TOKEN, use_context=True)
+updater = Updater(token=TELEGRAM_TOKEN)
 dispatcher = updater.dispatcher
+
+
 
 # Build in all functions here
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
+    curr_command_list = [k for k, v in command_dict.items()]
+    context.bot.send_message(chat_id=update.effective_chat.id, text="The following are currently acceptable commands: " + "\n".join(curr_command_list))
 def reboot_raspi(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Rebooting Raspi now.")
     os.system('sleep 5; sudo shutdown -r now')
 def send_ep_logfile(update, context):
-    context.bot.send_document(chat_id=update.effective_chat.id, document=open(EP_Path / "ep_logfile", 'rb'))
-def caps(update, context):
-    text_caps = ' '.join(context.args).upper()
-    context.bot.send_message(chat_id=update.effective_chat.id, text=text_caps)
+    context.bot.send_document(chat_id=update.effective_chat.id, document=open(EP_Path / "ep_logfile.txt", 'rb'))
+    context.bot.send_document(chat_id=update.effective_chat.id, document=open(EP_Path / "eptg_logfile.txt", 'rb'))
+    context.bot.send_document(chat_id=update.effective_chat.id, document=open(EP_Path / "reboot_log.txt", 'rb'))
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Unrecognized command.")
 
 
-command_list = [
-    CommandHandler('start', start),
-    CommandHandler('reboot_raspi', reboot_raspi),
-    CommandHandler('send_logs', send_ep_logfile),
-    MessageHandler(Filters.command, unknown)
-]
+command_dict = {
+    "/start": CommandHandler('start', start),
+    "/reboot_raspi": CommandHandler('reboot_raspi', reboot_raspi),
+    "/send_logs": CommandHandler('send_logs', send_ep_logfile),
+    "unk": MessageHandler(Filters.command, unknown)
+}
 
 
-for command in command_list:
+for key, command in command_dict.items():
     dispatcher.add_handler(command)
 
-updater.start_polling()
+updater.start_polling(poll_interval=900)
