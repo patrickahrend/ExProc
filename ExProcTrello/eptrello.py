@@ -111,3 +111,4 @@ def update_soc_status_board():
     print(statusboardcard_url)
     print(response)
     return response
+

@@ -1,4 +1,5 @@
 
+functions = {"get logs": get_logs(), "reboot raspi": reboot_raspi()}
 responses = {"hello":"hey!"}
 
 def messenger(message_text):
@@ -12,6 +13,7 @@ def messenger(message_text):
         return responses[the_msg]
     else:
         return "Command not recognized."
+
 
 def reboot_raspi():
     import os
