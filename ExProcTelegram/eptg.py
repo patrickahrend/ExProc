@@ -28,7 +28,7 @@ with open(datastore_folder / "ep_config.json", encoding="utf8") as datastore_aut
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', filename="eptg_logfile.txt", filemode="a+", level=logging.INFO)
 command_dict = {}
 
-updater = Updater(token=TELEGRAM_TOKEN)
+updater = Updater(token=TELEGRAM_TOKEN, use_context=True)
 dispatcher = updater.dispatcher
 
 
@@ -36,7 +36,7 @@ dispatcher = updater.dispatcher
 # Build in all functions here
 def start(update, context):
     curr_command_list = [k for k, v in command_dict.items()]
-    context.bot.send_message(chat_id=update.effective_chat.id, text="The following are currently acceptable commands: " + "\n".join(curr_command_list))
+    context.bot.send_message(chat_id=update.effective_chat.id, text="The following are currently acceptable commands:\n" + "\n".join(curr_command_list))
 def reboot_raspi(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Rebooting Raspi now.")
     os.system('sleep 5; sudo shutdown -r now')
@@ -59,4 +59,5 @@ command_dict = {
 for key, command in command_dict.items():
     dispatcher.add_handler(command)
 
-updater.start_polling(poll_interval=900)
+# timeout is how long to keep a poll open before closing. poll_interval is how long to wait after the last poll.
+updater.start_polling()
