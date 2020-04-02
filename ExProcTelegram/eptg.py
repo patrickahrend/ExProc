@@ -47,17 +47,26 @@ def send_ep_logfile(update, context):
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Unrecognized command.")
 
+def shell_save_file(update, context):
+    if context.args is None or update.message.document is None :
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Usage: /save_file <<save location with filename>> *Ensure file is attached to message.*")
+    elif len(context.args) > 1:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Args was too long.")
+    else:
+        context.bot.send_message(chat_id=update.effective_chat.id, text=" ".join(context.args))
+
 
 command_dict = {
     "/start": CommandHandler('start', start),
     "/reboot_raspi": CommandHandler('reboot_raspi', reboot_raspi),
     "/send_logs": CommandHandler('send_logs', send_ep_logfile),
-    "unk": MessageHandler(Filters.command, unknown)
+    "/save_file": CommandHandler('save_file', shell_save_file, pass_args=True),
+    "unknowncmd": MessageHandler(Filters.command, unknown)
 }
 
 
-for key, command in command_dict.items():
-    dispatcher.add_handler(command)
+for key, handler in command_dict.items():
+    dispatcher.add_handler(handler)
 
 # timeout is how long to keep a poll open before closing. poll_interval is how long to wait after the last poll.
 updater.start_polling()
