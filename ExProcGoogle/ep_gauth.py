@@ -1,3 +1,4 @@
+# This script gets credentials for use by other Google API apps.
 # Copied entirely from https://developers.google.com/people/quickstart/python
 # Had to install some of Google's Packages
 # pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib

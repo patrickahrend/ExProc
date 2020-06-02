@@ -11,37 +11,36 @@ from pathlib import Path
 
 # Setup/Import of data, variables, paths
 EP_Path = Path(__file__).parents[1]
+# EP_Path = Path("C:/Users/farha/Google Drive/XS/Git/ExProc")
 datastore_folder = Path(EP_Path, "datastore")
 trello_folder = Path(EP_Path, "ExProcTrello/")
 
 
 # Collecting some config variables
-with open(datastore_folder / "ep_config.json", encoding="utf8") as datastore_auth:
-    auth_json = json.load(datastore_auth)
-    TRELLO_API_KEY = auth_json['api_keys']['TRELLO_API_KEY']
-    TRELLO_TOKEN = auth_json['api_keys']['TRELLO_TOKEN']
-    MAIN_TRELLO_BOARD_ID = auth_json['trello_links']['MAIN_TRELLO_BOARD_ID']
+with open(datastore_folder / "ep_config.json", encoding="utf8") as ep_config:
+    ep_config_json = json.load(ep_config)
+    TRELLO_API_KEY = ep_config_json['api_keys']['TRELLO_API_KEY']
+    TRELLO_TOKEN = ep_config_json['api_keys']['TRELLO_TOKEN']
+    FG_BOARD_ID = ep_config_json['trello_links']['FG_BOARD_ID']
+    EP_BOARD_ID = ep_config_json['trello_links']['EP_BOARD_ID']
 
 
 # Setting up other simple local variables
 BASE_URL = "https://api.trello.com/1/"
-BOARD_URL = "boards/%s/" % MAIN_TRELLO_BOARD_ID
 
 
 def format_aPL_to_markdown(pjDict):
     pjDict: dict
 
-
-def get_all_cards(): # Gets all the *visible/active* cards back as a nice json
-    url = BASE_URL + BOARD_URL + "?cards=visible"
+def get_all_cards(board_id):  # Gets all the *visible/active* cards back as a nice json
+    url = BASE_URL + "boards/%s/" % board_id + "?cards=visible"
     querystring = {"key": TRELLO_API_KEY, "token": TRELLO_TOKEN}
     response = requests.get(url, params=querystring)
     print(response)
     return json.loads(response.text)['cards'] # Returns an array of cards
 
-
-def find_card_by_name(substring):
-    card_list = get_all_cards()
+def find_card_by_name(board_id, substring):
+    card_list = get_all_cards(board_id)
     for card in card_list:
         if substring in card['name']:
             print(card['name'], card['id'])

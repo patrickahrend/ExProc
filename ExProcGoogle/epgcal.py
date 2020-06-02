@@ -10,12 +10,12 @@ from googleapiclient.discovery import build
 # Setup/Import of data, variables, paths
 EP_Path = Path(__file__).parents[1]
 datastore_folder = Path(EP_Path, "datastore")
-trello_folder = Path(EP_Path, "ExProcTrello/")
+#trello_folder = Path(EP_Path, "ExProcTrello/")
 
 # Collecting some config variables
-with open(datastore_folder / "ep_config.json", encoding="utf8") as datastore_auth:
-    auth_json = json.load(datastore_auth)
-    smt_calendar_id = auth_json['gcal_links']['smt_calendar_id']
+with open(datastore_folder / "ep_config.json", encoding="utf8") as ep_config:
+    ep_config_json = json.load(ep_config)
+    smt_calendar_id = ep_config_json['gcal_links']['smt_calendar_id']
 
 
 def review_yesterday(creds):
