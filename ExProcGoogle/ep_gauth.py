@@ -8,7 +8,6 @@
 
 # Imports
 from __future__ import print_function
-import datetime
 import pickle
 import os.path
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -22,7 +21,10 @@ datastore_folder = Path(EP_Path, "datastore")
 
 # If modifying these scopes, delete the file token.pickle.
 # These scopes indicate which authentications will be made and stored in the pickle
-SCOPES = ['https://www.googleapis.com/auth/contacts.readonly', 'https://www.googleapis.com/auth/calendar.readonly']
+SCOPES = [
+    "https://www.googleapis.com/auth/contacts",
+    "https://www.googleapis.com/auth/calendar.readonly",
+]
 
 # Handles the production, storage, and return of the credentials for other calling scripts
 # Almost all of this directly copied from Google's Python API Quickstart Documentation
@@ -34,18 +36,20 @@ def main():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first time.
 
-    if os.path.exists(datastore_folder / 'googletoken.pickle'):
-        with open(datastore_folder / 'googletoken.pickle', 'rb') as token:
+    if os.path.exists(datastore_folder / "googletoken.pickle"):
+        with open(datastore_folder / "googletoken.pickle", "rb") as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(datastore_folder / 'googlecredentials.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(
+                datastore_folder / "googlecredentials.json", SCOPES
+            )
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open(datastore_folder / 'googletoken.pickle', 'wb') as token:
+        with open(datastore_folder / "googletoken.pickle", "wb") as token:
             pickle.dump(creds, token)
 
     return creds
